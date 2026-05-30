@@ -713,4 +713,119 @@
     drawParticles();
   })();
 </script>
-```
+  <!-- ADD TO EXISTING <style> SECTION: QUANTUM EQUATION OVERLAY STYLES -->
+<style>
+  .quantum-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 5;
+    pointer-events: none;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 14px;
+    line-height: 1.3;
+    color: rgba(176, 38, 255, 0.35);
+    text-shadow: 0 0 3px rgba(255, 26, 68, 0.3);
+    white-space: pre;
+    overflow: hidden;
+  }
+  .quantum-line {
+    position: absolute;
+    white-space: nowrap;
+    opacity: 0;
+    animation: quantumDrift linear infinite;
+  }
+  @keyframes quantumDrift {
+    0% { transform: translateX(100%); opacity: 0; }
+    10% { opacity: 0.4; }
+    90% { opacity: 0.4; }
+    100% { transform: translateX(-100%); opacity: 0; }
+  }
+</style>
+
+<!-- ADD TO <body> (after the existing canvases and overlays, before .content) -->
+<div class="quantum-overlay" id="quantumOverlay"></div>
+
+<!-- ADD TO EXISTING <script> SECTION: QUANTUM EQUATION GENERATOR (MATRIX RAIN STYLE) -->
+<script>
+  (function quantumEquationsBackground() {
+    const equations = [
+      "iℏ ∂/∂t Ψ = Ĥ Ψ",
+      "∫ D[x(t)] e^(iS[x]/ℏ)",
+      "R_μν - 1/2 g_μν R = 8πG T_μν",
+      "∇·E = ρ/ε₀",
+      "E = mc²",
+      "ψ(x) = ⟨x|ψ⟩",
+      "Δx Δp ≥ ℏ/2",
+      "S = ∫ L dt",
+      "∂_μ F^{μν} = μ₀ J^ν",
+      "|Ψ⟩ = Σ c_n |n⟩",
+      "iγ^μ ∂_μ ψ - mψ = 0",
+      "dS = dQ_rev / T",
+      "H|ψ⟩ = E|ψ⟩",
+      "[x̂, p̂] = iℏ",
+      "Z = ∫ Dφ e^{-S_E[φ]/ℏ}",
+      "F = dA + A∧A",
+      "δS = 0",
+      "∇²φ - (1/c²)∂²φ/∂t² = 0",
+      "p = h/λ",
+      "E_n = -13.6 eV / n²"
+    ];
+    
+    const overlay = document.getElementById('quantumOverlay');
+    if (!overlay) return;
+    
+    let activeLines = [];
+    const MAX_LINES = 45;
+    const LINE_HEIGHT = 24;
+    const ANIMATION_DURATION_MIN = 12;
+    const ANIMATION_DURATION_MAX = 28;
+    
+    function createQuantumLine() {
+      if (activeLines.length >= MAX_LINES) return;
+      const eq = equations[Math.floor(Math.random() * equations.length)];
+      const line = document.createElement('div');
+      line.className = 'quantum-line';
+      line.textContent = eq + '   ' + eq.split('').reverse().join('').slice(0, 8); // add slight variation
+      line.style.fontSize = (Math.random() * 6 + 11) + 'px';
+      line.style.opacity = (Math.random() * 0.4 + 0.15).toString();
+      line.style.top = Math.random() * window.innerHeight + 'px';
+      const duration = Math.random() * (ANIMATION_DURATION_MAX - ANIMATION_DURATION_MIN) + ANIMATION_DURATION_MIN;
+      line.style.animationDuration = duration + 's';
+      line.style.animationDelay = (Math.random() * 5) + 's';
+      overlay.appendChild(line);
+      activeLines.push(line);
+      line.addEventListener('animationend', () => {
+        line.remove();
+        const index = activeLines.indexOf(line);
+        if (index !== -1) activeLines.splice(index, 1);
+      });
+    }
+    
+    function startQuantumRain() {
+      setInterval(() => {
+        if (activeLines.length < MAX_LINES && Math.random() > 0.65) {
+          createQuantumLine();
+        }
+      }, 800);
+      // initial burst
+      for (let i = 0; i < 20; i++) {
+        setTimeout(() => createQuantumLine(), i * 150);
+      }
+    }
+    
+    window.addEventListener('resize', () => {
+      // reposition existing lines to avoid overflow
+      for (let line of activeLines) {
+        const top = parseFloat(line.style.top);
+        if (top > window.innerHeight) {
+          line.style.top = (window.innerHeight - LINE_HEIGHT) + 'px';
+        }
+      }
+    });
+    
+    startQuantumRain();
+  })();
+</script>
