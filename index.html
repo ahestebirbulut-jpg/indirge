@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>// MANIFESTO</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Noto+Serif:ital,wght@0,400;0,700;1,400&family=Rajdhani:wght@300;600&display=swap');
+
+  :root {
+    --red: #cc0000;
+    --red-bright: #ff2020;
+    --red-dim: #660000;
+    --red-glow: rgba(204,0,0,0.4);
+    --bg: #000000;
+    --bg2: #050505;
+    --text: #c8c8c8;
+    --text-dim: #555;
+    --mono: 'Share Tech Mono', monospace;
+    --serif: 'Noto Serif', serif;
+    --display: 'Rajdhani', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--serif);
+    min-height: 100vh;
+    overflow-x: hidden;
+    cursor: crosshair;
+  }
+
+  /* Scanline overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,0.08) 2px,
+      rgba(0,0,0,0.08) 4px
+    );
+    pointer-events: none;
+    z-index: 999;
+  }
+
+  /* Noise texture */
+  body::after {
+    content: '';
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    opacity: 0.04;
+    pointer-events: none;
+    z-index: 998;
+  }
+
+  /* Header */
+  header {
+    border-bottom: 1px solid var(--red-dim);
+    padding: 1.5rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    background: rgba(0,0,0,0.95);
+    z-index: 100;
+    backdrop-filter: blur(4px);
+  }
+
+  .logo {
+    font-family: var(--mono);
+    color: var(--red-bright);
+    font-size: 0.85rem;
+    letter-spacing: 0.2em;
+    text-shadow: 0 0 10px var(--red-glow);
+    animation: flicker 8s infinite;
+  }
+
+  .logo span { color: var(--text-dim); }
+
+  nav {
+    display: flex;
+    gap: 2rem;
+  }
+
+  nav a {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    color: var(--text-dim);
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  nav a:hover {
+    color: var(--red-bright);
+    text-shadow: 0 0 8px var(--red-glow);
+  }
+
+  /* Hero */
+  .hero {
+    min-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 4rem 2rem;
+    position: relative;
+    border-bottom: 1px solid var(--red-dim);
+  }
+
+  .hero-tag {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    color: var(--red-dim);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-title {
+    font-family: var(--display);
+    font-size: clamp(3rem, 12vw, 8rem);
+    font-weight: 600;
+    color: var(--red-bright);
+    line-height: 0.9;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    text-shadow:
+      0 0 20px var(--red-glow),
+      0 0 60px rgba(204,0,0,0.2),
+      2px 2px 0px #800000;
+    animation: titleGlitch 12s infinite;
+    margin-bottom: 2rem;
+  }
+
+  .hero-sub {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+    max-width: 400px;
+    line-height: 1.8;
+    border-left: 2px solid var(--red-dim);
+    padding-left: 1rem;
+  }
+
+  .hero-sub em {
+    color: var(--red);
+    font-style: normal;
+  }
+
+  /* Decorative corner */
+  .corner-deco {
+    position: absolute;
+    bottom: 3rem;
+    right: 2rem;
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    color: var(--red-dim);
+    letter-spacing: 0.1em;
+    text-align: right;
+    line-height: 2;
+  }
+
+  /* Main content */
+  main {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 4rem 2rem;
+  }
+
+  /* Section headers */
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 3rem;
+  }
+
+  .section-num {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    color: var(--red);
+    letter-spacing: 0.2em;
+  }
+
+  .section-title {
+    font-family: var(--display);
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: var(--text);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .section-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, var(--red-dim), transparent);
+  }
+
+  /* Post cards */
+  .posts {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .post-item {
+    border-top: 1px solid #111;
+    padding: 2rem 0;
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 1.5rem;
+    text-decoration: none;
+    transition: all 0.2s;
+    position: relative;
+  }
+
+  .post-item::before {
+    content: '';
+    position: absolute;
+    left: -2rem;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--red);
+    opacity: 0;
+    transition: opacity 0.2s;
+    box-shadow: 0 0 10px var(--red-glow);
+  }
+
+  .post-item:hover::before { opacity: 1; }
+
+  .post-item:hover .post-title { color: var(--red-bright); }
+
+  .post-date {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    color: var(--red-dim);
+    letter-spacing: 0.1em;
+    line-height: 1.8;
+    padding-top: 0.25rem;
+  }
+
+  .post-title {
+    font-family: var(--display);
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--text);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+    transition: color 0.2s;
+  }
+
+  .post-excerpt {
+    font-family: var(--serif);
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    line-height: 1.7;
+    font-style: italic;
+  }
+
+  /* Manifesto section */
+  .manifesto {
+    background: var(--bg2);
+    border: 1px solid var(--red-dim);
+    padding: 3rem 2rem;
+    margin: 4rem 0;
+    position: relative;
+  }
+
+  .manifesto::before {
+    content: '// MANIFESTO';
+    position: absolute;
+    top: -0.6rem;
+    left: 1.5rem;
+    background: var(--bg);
+    padding: 0 0.5rem;
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    color: var(--red);
+    letter-spacing: 0.2em;
+  }
+
+  .manifesto p {
+    font-family: var(--serif);
+    font-size: 0.95rem;
+    line-height: 2;
+    color: var(--text);
+    margin-bottom: 1.5rem;
+  }
+
+  .manifesto p:last-child { margin-bottom: 0; }
+
+  .manifesto strong {
+    color: var(--red-bright);
+    font-weight: 700;
+  }
+
+  /* Footer */
+  footer {
+    border-top: 1px solid var(--red-dim);
+    padding: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-sig {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    color: var(--red-dim);
+    letter-spacing: 0.15em;
+  }
+
+  .footer-status {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+  }
+
+  .footer-status::before {
+    content: '● ';
+    color: var(--red);
+    animation: blink 2s infinite;
+  }
+
+  /* Animations */
+  @keyframes flicker {
+    0%, 95%, 100% { opacity: 1; }
+    96% { opacity: 0.4; }
+    97% { opacity: 1; }
+    98% { opacity: 0.6; }
+    99% { opacity: 1; }
+  }
+
+  @keyframes titleGlitch {
+    0%, 90%, 100% {
+      text-shadow:
+        0 0 20px var(--red-glow),
+        0 0 60px rgba(204,0,0,0.2),
+        2px 2px 0px #800000;
+      transform: translateX(0);
+    }
+    91% {
+      text-shadow:
+        -3px 0 #ff0000,
+        3px 0 #000066,
+        0 0 20px var(--red-glow);
+      transform: translateX(-2px);
+    }
+    92% {
+      text-shadow:
+        3px 0 #ff0000,
+        -3px 0 #000066,
+        0 0 20px var(--red-glow);
+      transform: translateX(2px);
+    }
+    93% {
+      text-shadow:
+        0 0 20px var(--red-glow),
+        2px 2px 0px #800000;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  /* Mobile */
+  @media (max-width: 600px) {
+    header { padding: 1rem; }
+    nav { gap: 1rem; }
+    .hero { padding: 3rem 1rem; min-height: 70vh; }
+    main { padding: 3rem 1rem; }
+    .post-item { grid-template-columns: 60px 1fr; gap: 1rem; }
+    footer { flex-direction: column; gap: 1rem; text-align: center; }
+    .manifesto { padding: 2rem 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo"><span>// </span>ARŞIV<span>.exe</span></div>
+  <nav>
+    <a href="#yazilar">Yazılar</a>
+    <a href="#manifesto">Manifesto</a>
+    <a href="#hakkinda">Hakkında</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="hero-tag">// sistem kaydı aktif — 2026</div>
+  <h1 class="hero-title">ARŞIV</h1>
+  <p class="hero-sub">
+    Düşünce bir <em>silah</em>tır.<br>
+    Unutmak bir <em>teslimiyettir</em>.<br>
+    Bu sayfa, kayıt altına almak için var.
+  </p>
+  <div class="corner-deco">
+    NODE_ID: 001<br>
+    STATUS: ONLINE<br>
+    ENCRYPTION: NONE
+  </div>
+</section>
+
+<main>
+
+  <section id="yazilar">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <h2 class="section-title">Yazılar</h2>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="posts">
+      <a href="#" class="post-item">
+        <div class="post-date">30.05<br>2026</div>
+        <div>
+          <div class="post-title">Başlık Bir</div>
+          <div class="post-excerpt">Buraya yazının kısa açıklaması gelecek. Birkaç cümle yeterli.</div>
+        </div>
+      </a>
+      <a href="#" class="post-item">
+        <div class="post-date">28.05<br>2026</div>
+        <div>
+          <div class="post-title">Başlık İki</div>
+          <div class="post-excerpt">İkinci yazının özeti burada yer alıyor. Değiştirilebilir.</div>
+        </div>
+      </a>
+      <a href="#" class="post-item">
+        <div class="post-date">20.05<br>2026</div>
+        <div>
+          <div class="post-title">Başlık Üç</div>
+          <div class="post-excerpt">Üçüncü kayıt. Sistem silinemez ne eklersen ekle.</div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <section id="manifesto">
+    <div class="manifesto">
+      <p>
+        Bu bir arşivdir. Kaybedilmemesi gereken düşünceler için bir kap.
+        Sisteme entegre olmayı reddeden her şey buraya akar.
+      </p>
+      <p>
+        <strong>Hafıza direnişin ilk koşuludur.</strong>
+        Yazılmayan düşünce ölür. Ölü düşünce sistemin işine gelir.
+      </p>
+      <p>
+        Bu sayfada olanlar bana aittir. Ne onayınıza ihtiyacım var, ne de platformunuza.
+      </p>
+    </div>
+  </section>
+
+  <section id="hakkinda">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <h2 class="section-title">Hakkında</h2>
+      <div class="section-line"></div>
+    </div>
+    <p style="font-family: var(--serif); font-size: 0.9rem; color: var(--text-dim); line-height: 2; max-width: 500px;">
+      Buraya kendin hakkında yazmak istediğin şeyi ekle.<br>
+      Kim olduğun, neden yazdığın, ya da hiçbir şey.
+    </p>
+  </section>
+
+</main>
+
+<footer>
+  <div class="footer-sig">// ARŞIV — TÜRKÇE</div>
+  <div class="footer-status">SYSTEM ONLINE</div>
+</footer>
+
+</body>
+</html>
