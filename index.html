@@ -834,67 +834,98 @@
       drawParticles();
     })();
 
-    // ─── KUANTUM DENKLEM YAĞMURU ────────────────────────────
-    (function quantumEquationsBackground() {
-      // İstersen bu dizi kendi evrene ait semboller/denklemlerle değiştirilebilir
-      const equations = [
-        "iℏ ∂/∂t Ψ = Ĥ Ψ",
-        "∫ D[x(t)] e^(iS[x]/ℏ)",
-        "R_μν - 1/2 g_μν R = 8πG T_μν",
-        "∇·E = ρ/ε₀",
-        "E = mc²",
-        "ψ(x) = ⟨x|ψ⟩",
-        "Δx Δp ≥ ℏ/2",
-        "S = ∫ L dt",
-        "∂_μ F^{μν} = μ₀ J^ν",
-        "|Ψ⟩ = Σ c_n |n⟩",
-        "iγ^μ ∂_μ ψ - mψ = 0",
-        "dS = dQ_rev / T",
-        "H|ψ⟩ = E|ψ⟩",
-        "[x̂, p̂] = iℏ",
-        "Z = ∫ Dφ e^{-S_E[φ]/ℏ}",
-        "F = dA + A∧A",
-        "δS = 0",
-        "∇²φ - (1/c²)∂²φ/∂t² = 0",
-        "p = h/λ",
-        "E_n = -13.6 eV / n²"
-      ];
+    // ─── MATRIX-STYLE QUANTUM RAIN ────────────────────────────
+(function quantumMatrixRain() {
+    const overlay = document.getElementById('quantumOverlay');
+    if (!overlay) return;
 
-      const overlay = document.getElementById('quantumOverlay');
-      if (!overlay) return;
+    const equations = [
+        "iℏ ∂Ψ/∂t = ĤΨ", "∫D[x]e^{iS/ℏ}", "Rμν - ½gμνR = 8πGTμν",
+        "∇·E = ρ/ε₀", "E=mc²", "ΔxΔp ≥ ℏ/2", "ψ = ⟨x|Ψ⟩",
+        "∂μFμν = μ₀Jν", "H|ψ⟩=E|ψ⟩", "[x̂,p̂]=iℏ",
+        "∇²φ - (1/c²)∂²φ/∂t²=0", "p=h/λ", "S=∫Ldt",
+        "Z=∫Dφ e^{-S/ℏ}", "F=dA+A∧A", "δS=0"
+    ];
 
-      let activeLines = [];
-      const MAX_LINES = 45;
+    let columns = [];
+    let fontSize = 15;
+    let drops = [];
 
-      function createQuantumLine() {
-        if (activeLines.length >= MAX_LINES) return;
-        const eq = equations[Math.floor(Math.random() * equations.length)];
-        const line = document.createElement('div');
-        line.className = 'quantum-line';
-        line.textContent = eq + '   ' + eq.split('').reverse().join('').slice(0, 8);
-        line.style.fontSize = (Math.random() * 6 + 11) + 'px';
-        line.style.opacity = (Math.random() * 0.4 + 0.15).toString();
-        line.style.top = Math.random() * window.innerHeight + 'px';
-        const duration = Math.random() * 16 + 12;
-        line.style.animationDuration = duration + 's';
-        line.style.animationDelay = (Math.random() * 5) + 's';
-        overlay.appendChild(line);
-        activeLines.push(line);
-        line.addEventListener('animationend', () => {
-          line.remove();
-          const index = activeLines.indexOf(line);
-          if (index !== -1) activeLines.splice(index, 1);
+    function resize() {
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+        
+        overlay.style.width = width + 'px';
+        overlay.style.height = height + 'px';
+
+        const colCount = Math.floor(width / fontSize) + 2;
+        
+        // Sütunları sıfırla
+        columns = [];
+        drops = [];
+        
+        for (let i = 0; i < colCount; i++) {
+            columns.push({
+                x: i * fontSize,
+                text: equations[Math.floor(Math.random() * equations.length)],
+                speed: 2 + Math.random() * 3.5,
+                opacity: 0.12 + Math.random() * 0.28,
+                length: 8 + Math.floor(Math.random() * 18)
+            });
+            drops.push(Math.random() * -height * 1.5);
+        }
+    }
+
+    function draw() {
+        // Hafif fade efekti
+        const ctx = document.createElement('canvas').getContext('2d'); // dummy değil, overlay'e direkt çizmek yerine CSS + div'lerle yapıyoruz
+        // Aslında div bazlı yapacağız
+
+        columns.forEach((col, i) => {
+            const y = drops[i];
+
+            const line = document.createElement('div');
+            line.className = 'quantum-line';
+            line.textContent = col.text;
+            line.style.position = 'absolute';
+            line.style.left = col.x + 'px';
+            line.style.top = y + 'px';
+            line.style.opacity = col.opacity;
+            line.style.fontSize = fontSize + 'px';
+            line.style.color = '#b026ff';
+            line.style.textShadow = '0 0 8px #ff1a44, 0 0 16px #b026ff';
+            line.style.whiteSpace = 'nowrap';
+            line.style.transform = `rotate(${Math.random()*2-1}deg)`;
+            line.style.pointerEvents = 'none';
+
+            overlay.appendChild(line);
+
+            // Biraz aşağı kaydır
+            drops[i] += col.speed;
+
+            // Ekranı geçtiyse resetle
+            if (drops[i] > window.innerHeight + 100) {
+                drops[i] = -200 - Math.random() * 600;
+                col.text = equations[Math.floor(Math.random() * equations.length)];
+                col.opacity = 0.12 + Math.random() * 0.28;
+            }
+
+            // 3-4 saniye sonra sil
+            setTimeout(() => {
+                if (line.parentNode) line.parentNode.removeChild(line);
+            }, 4500);
         });
-      }
+    }
 
-      setInterval(() => {
-        if (activeLines.length < MAX_LINES && Math.random() > 0.65) createQuantumLine();
-      }, 800);
+    // Başlat
+    function startRain() {
+        resize();
+        window.addEventListener('resize', resize);
+        
+        setInterval(() => {
+            draw();
+        }, 65); // Hız ayarı (daha hızlı istiyorsan 45-50 yap)
+    }
 
-      for (let i = 0; i < 20; i++) {
-        setTimeout(() => createQuantumLine(), i * 150);
-      }
-    })();
-  </script>
-</body>
-</html>
+    startRain();
+})();
