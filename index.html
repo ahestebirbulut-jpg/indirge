@@ -920,7 +920,7 @@
       drawParticles();
     })();
 
-    // ─── KUANTUM DENKLEM YAĞMURU (DÜZELTİLMİŞ VERSİYON) ──────────
+        // ─── KUANTUM DENKLEM YAĞMURU (DÜZELTİLMİŞ VERSİYON - TATEGAKI STİLİ) ──────────
     (function quantumEquationsBackground() {
       const equations = [
         "iℏ ∂/∂t Ψ = Ĥ Ψ",
@@ -957,7 +957,7 @@
       }
 
       let activeLines = [];
-      const MAX_LINES = 65;
+      const MAX_LINES = 80;
 
       function createQuantumLine() {
         if (activeLines.length >= MAX_LINES) return;
@@ -966,50 +966,52 @@
         const line = document.createElement('div');
         line.className = 'quantum-line';
 
-        // Tam ekran yayılım - soldan sağa rastgele pozisyon
+        // Tam ekran yayılım - rastgele X pozisyonu (0-100%)
         const randomX = Math.random() * 100;
         line.style.left = randomX + '%';
-
-        // Rastgele başlangıç opaklığı
-        const startOpacity = Math.random() * 0.45 + 0.1;
+        
+        // Tategaki stili için harfleri dikey olarak alt alta diz
+        // Japonca yazı gibi dikey görünüm için her karakteri <br> ile ayır
+        const verticalText = eq.split('').map(char => {
+          if (char === ' ') return '&nbsp;';
+          return char;
+        }).join('<br>');
+        
+        line.innerHTML = verticalText;
+        
+        // Sabit başlangıç opaklığı - ani görünüm için delay yok
+        const startOpacity = Math.random() * 0.35 + 0.25;
         line.style.setProperty('--start-opacity', startOpacity);
         line.style.opacity = startOpacity;
-
-        // Rastgele içerik varyasyonu: bazen denklemin tersi de eklenebilir
-        if (Math.random() > 0.7) {
-          line.textContent = eq + '  |  ' + eq.split('').reverse().join('').slice(0, 12);
-        } else {
-          line.textContent = eq;
-        }
         
-        line.style.fontSize = (Math.random() * 10 + 11) + 'px'; // 11-21px
-        line.style.animationDuration = (Math.random() * 10 + 5) + 's'; // 5-15 saniye
-        line.style.animationDelay = (Math.random() * 3) + 's';
-        line.style.fontWeight = Math.random() > 0.8 ? 'bold' : 'normal';
+        // Font boyutu - dikey yazı için biraz daha küçük
+        const fontSize = Math.random() * 7 + 10;
+        line.style.fontSize = fontSize + 'px';
+        line.style.lineHeight = (fontSize * 0.9) + 'px';
         
-        // Renk varyasyonu: mor, kırmızı, cyan, yeşil tonları
-        const colorType = Math.random();
-        let color, shadowColor;
-        if (colorType < 0.4) {
-          color = `hsl(${270 + Math.random() * 30}, 100%, 65%)`; // Mor tonları
-          shadowColor = `hsla(${270 + Math.random() * 30}, 100%, 65%, 0.6)`;
-        } else if (colorType < 0.7) {
-          color = `hsl(${340 + Math.random() * 30}, 100%, 60%)`; // Kırmızı/pembe tonları
-          shadowColor = `hsla(${340 + Math.random() * 30}, 100%, 60%, 0.5)`;
-        } else {
-          color = `hsl(${170 + Math.random() * 40}, 100%, 55%)`; // Cyan/yeşil tonları
-          shadowColor = `hsla(${170 + Math.random() * 40}, 100%, 55%, 0.5)`;
-        }
+        // Animation: Daha hızlı başlangıç, delay yok, hemen akışa geç
+        const duration = Math.random() * 8 + 6; // 6-14 saniye
+        line.style.animationDuration = duration + 's';
+        line.style.animationDelay = '0s'; // DELAY YOK - hemen başlıyor!
+        line.style.animationTimingFunction = 'linear';
         
-        line.style.color = color;
-        line.style.textShadow = `0 0 ${Math.random() * 8 + 3}px ${shadowColor}`;
+        line.style.fontWeight = 'normal';
         
-        // Rastgele font ailesi değişimi
-        if (Math.random() > 0.85) {
-          line.style.fontFamily = "'Orbitron', monospace";
-        } else {
-          line.style.fontFamily = "'Share Tech Mono', 'Courier New', monospace";
-        }
+        // SADECE MOR RENK TONLARI - tema ile uyumlu
+        const purpleHue = 260 + Math.random() * 40; // 260-300 arası (mor/eflatun)
+        const saturation = 85 + Math.random() * 15; // %85-100
+        const lightness = 55 + Math.random() * 25; // %55-80
+        
+        line.style.color = `hsl(${purpleHue}, ${saturation}%, ${lightness}%)`;
+        line.style.textShadow = `0 0 ${Math.random() * 6 + 2}px hsla(${purpleHue}, ${saturation}%, 65%, 0.7)`;
+        
+        // Sabit font - Share Tech Mono daha iyi görünür
+        line.style.fontFamily = "'Share Tech Mono', 'Courier New', monospace";
+        line.style.textAlign = 'center';
+        
+        // Küçük bir stagger efekti için başlangıç Y pozisyonu
+        const startY = -20 - Math.random() * 30;
+        line.style.transform = `translateY(${startY}vh)`;
 
         overlay.appendChild(line);
         activeLines.push(line);
@@ -1021,26 +1023,23 @@
         });
       }
 
-      // Düzenli aralıklarla yeni satır ekle
-      setInterval(() => {
-        if (activeLines.length < MAX_LINES && Math.random() > 0.35) {
-          createQuantumLine();
+      // Daha sık aralıklarla yeni satır ekle (akışkan görünüm için)
+      const intervalId = setInterval(() => {
+        if (activeLines.length < MAX_LINES) {
+          // Neredeyse her seferinde ekle (daha yoğun)
+          if (Math.random() > 0.2) {
+            createQuantumLine();
+          }
         }
-      }, 250);
+      }, 180);
 
-      // Başlangıçta daha fazla satır oluştur - hemen görünürlük için
-      for (let i = 0; i < Math.min(MAX_LINES, 40); i++) {
-        setTimeout(() => createQuantumLine(), i * 80);
+      // Başlangıçta hemen çok sayıda satır oluştur - gecikme yok
+      for (let i = 0; i < MAX_LINES * 0.6; i++) {
+        createQuantumLine();
       }
       
-      // Ekran yeniden boyutlandığında mevcut satırların konumlarını koru
-      window.addEventListener('resize', () => {
-        // Mevcut satırların left değerlerini yeniden hesapla (opsiyonel)
-        // Bu, yüzde bazlı left kullanıldığı için otomatik uyum sağlar
-      });
+      // Ekran yeniden boyutlandığında hiçbir şey yapma (mevcut satırlar kalır)
+      window.addEventListener('resize', () => {});
       
-      console.log('Kuantum denklem yağmuru başlatıldı, aktif overlay:', overlay);
+      console.log('Kuantum denklem yağmuru başlatıldı (Tategaki stili, mor tema)');
     })();
-  </script>
-</body>
-</html>
