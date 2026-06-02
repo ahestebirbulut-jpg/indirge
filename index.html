@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>Blog</title>
+  <title>Blog | Kuantum Denklem Yağmuru</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=Share+Tech+Mono&family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600&display=swap" rel="stylesheet">
   <style>
     * {
@@ -58,6 +58,40 @@
       pointer-events: none;
       z-index: 1;
     }
+
+    /* ========== QUANTUM OVERLAY - DÜZELTİLMİŞ ========== */
+    #quantumOverlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 9999;
+      overflow: hidden;
+      background: transparent;
+    }
+
+    .quantum-line {
+      position: absolute;
+      white-space: nowrap;
+      font-family: 'Courier New', monospace;
+      font-weight: bold;
+      will-change: transform;
+      animation: fallLinear linear forwards;
+    }
+
+    @keyframes fallLinear {
+      0% {
+        transform: translateY(-20vh);
+        opacity: var(--start-opacity, 0.2);
+      }
+      100% {
+        transform: translateY(120vh);
+        opacity: 0;
+      }
+    }
+    /* ================================================= */
 
     .content {
       position: relative;
@@ -217,8 +251,7 @@
       color: transparent;
       margin-bottom: 1rem;
     }
-
-    .excerpt, .entity-sub {
+        .excerpt, .entity-sub {
       font-size: 0.95rem;
       color: #ccd9ff;
       margin: 1rem 0;
@@ -407,36 +440,6 @@
       50% { opacity: 0; }
     }
 
-    /* QUANTUM OVERLAY */
-    .quantum-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 5;
-      pointer-events: none;
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 14px;
-      line-height: 1.3;
-      color: rgba(176, 38, 255, 0.35);
-      text-shadow: 0 0 3px rgba(255, 26, 68, 0.3);
-      white-space: pre;
-      overflow: hidden;
-    }
-    .quantum-line {
-      position: absolute;
-      white-space: nowrap;
-      opacity: 0;
-      animation: quantumDrift linear infinite;
-    }
-    @keyframes quantumDrift {
-      0% { transform: translateX(100%); opacity: 0; }
-      10% { opacity: 0.4; }
-      90% { opacity: 0.4; }
-      100% { transform: translateX(-100%); opacity: 0; }
-    }
-
     @media (max-width: 1024px) {
       .blog-grid { gap: 1.5rem; }
       .glitch-title { font-size: 3rem; }
@@ -459,21 +462,19 @@
   <div class="grid-mor"></div>
   <div class="crt-overlay"></div>
   <div class="vignette"></div>
-  <div class="quantum-overlay" id="quantumOverlay"></div>
+  <div id="quantumOverlay"></div>
 
   <div class="content">
-
-    <!-- ═══════════════════════════════════════════
+        <!-- ═══════════════════════════════════════════
          HERO BÖLÜMÜ
-         ─ Büyük glitch başlık, alt başlık, slogan
-         ─ ve kısa açıklama notundan oluşur.
     ═══════════════════════════════════════════ -->
     <div class="hero-block">
-      <h1 class="glitch-title" data-text="[BÜYÜK BAŞLIK]">Blog</h1>
+      <h1 class="glitch-title" data-text="[BÜYÜK BAŞLIK]">[BÜYÜK BAŞLIK]</h1>
       <div class="hero-sub">Tanrı yardımcımız olsun</div>
-      <div class="slogan-mor">[Orta boy açıklayıcı slogan cümlesi buraya gelir.]</div>
+      <div class="slogan-mor">Kuantum fırtınasının ortasında, gerçekliğin kodlarını çözüyoruz.</div>
       <div class="historical-note">
-        [Kısa tanıtım notu — tarihçe, evren açıklaması veya manifesto özeti buraya.]
+        [2024 yılında başlayan bu yolculuk, bilinç ve kuantum evreninin kesişim noktasında şekilleniyor. 
+        Her denklem bir kapı, her kod bir anahtar.]
       </div>
     </div>
 
@@ -481,10 +482,10 @@
          NAVİGASYON — Sekme isimleri
     ═══════════════════════════════════════════ -->
     <div class="nav-links">
-      <button class="nav-link active" data-view="home">◈ [SEKME 1]</button>
-      <button class="nav-link" data-view="tab2">◈ [SEKME 2]</button>
-      <button class="nav-link" data-view="tab3">◈ [SEKME 3]</button>
-      <button class="nav-link" data-view="tab4">◈ [SEKME 4]</button>
+      <button class="nav-link active" data-view="home">◈ [ANA SAYFA]</button>
+      <button class="nav-link" data-view="tab2">◈ [KUANTUM TEORİ]</button>
+      <button class="nav-link" data-view="tab3">◈ [UZAY ZAMAN]</button>
+      <button class="nav-link" data-view="tab4">◈ [BİLİNÇ]</button>
       <button class="nav-link" data-view="about">◈ [HAKKINDA]</button>
     </div>
 
@@ -493,60 +494,60 @@
     ═══════════════════════════════════════════ -->
     <div id="home-view" class="view active-view">
       <div class="about-text">
-        <h3 style="color: var(--neon-red);">⟡ [ANA SAYFA BAŞLIĞI] ⟡</h3>
-        <p style="margin-top:1rem;">[Ana sayfa giriş paragrafı. Evreni, projeyi veya kanalı tanıtan birkaç cümle buraya gelir.]</p>
-        <span style="font-family:monospace; color:var(--neon-purple);"># [ETİKET_1] # [ETİKET_2]</span>
+        <h3 style="color: var(--neon-red);">⟡ [KUANTUM KAOSUNDAN MERHABA] ⟡</h3>
+        <p style="margin-top:1rem;">Bu evren, gözlemle var olan bir bilinç ağıdır. Her birimiz, kuantum dalga fonksiyonunun birer yorumu, çoklu evrenlerin yankılarıyız. Bu blog, gerçekliğin dokusunu sorgulayanlar, karanlık maddede iz sürenler ve simulasyon hipotezine meydan okuyanlar için bir sığınak.</p>
+        <span style="font-family:monospace; color:var(--neon-purple);">#KUANTUM_BİLİNCİ #ÇOKLU_EVREN #KODLANMIŞ_GERÇEKLİK</span>
       </div>
       <div class="blog-grid">
 
         <!-- Kart 1 -->
         <div class="card">
-          <h3>[KART 1 BAŞLIĞI]</h3>
-          <div class="excerpt">[Kart 1 açıklaması. Konuyu özetleyen 1-2 cümle buraya gelir.]</div>
-          <blockquote>"[Kart 1 alıntı veya dikkat çekici cümle buraya.]"</blockquote>
-          <button class="btn-neon read-more" data-manifesto="card1">⟐ [BUTON YAZISI] ⟐</button>
+          <h3>Kuantum Dolanıklık</h3>
+          <div class="excerpt">Uzay ve zamanın ötesinde, parçacıklar birbirleriyle gizemli bir bağ kurar. Peki ya bilinç de dolanık olabilir mi?</div>
+          <blockquote>"Dolanıklık yalnızca parçacıkların değil, düşüncelerin de sınırlarını bulanıklaştırır."</blockquote>
+          <button class="btn-neon read-more" data-manifesto="card1">⟐ [DAHA FAZLA] ⟐</button>
         </div>
 
         <!-- Kart 2 -->
         <div class="card">
-          <h3>[KART 2 BAŞLIĞI]</h3>
-          <div class="excerpt">[Kart 2 açıklaması. Konuyu özetleyen 1-2 cümle buraya gelir.]</div>
-          <blockquote>"[Kart 2 alıntı veya dikkat çekici cümle buraya.]"</blockquote>
-          <button class="btn-neon read-more" data-manifesto="card2">⟐ [BUTON YAZISI] ⟐</button>
+          <h3>Schrödinger'in Kedisi</h3>
+          <div class="excerpt">Bir kutu, bir kedi ve radyoaktif bir atom. Ölü ve diri arasındaki süperpozisyon, gerçekliğin doğasını sorgulatıyor.</div>
+          <blockquote>"Ölçüm yapana kadar her şey belirsizdir. Bu, evrenin en büyük sırrıdır."</blockquote>
+          <button class="btn-neon read-more" data-manifesto="card2">⟐ [DAHA FAZLA] ⟐</button>
         </div>
 
         <!-- Kart 3 -->
         <div class="card">
-          <h3>[KART 3 BAŞLIĞI]</h3>
-          <div class="excerpt">[Kart 3 açıklaması. Konuyu özetleyen 1-2 cümle buraya gelir.]</div>
-          <blockquote>"[Kart 3 alıntı veya dikkat çekici cümle buraya.]"</blockquote>
-          <button class="btn-neon read-more" data-manifesto="card3">⟐ [BUTON YAZISI] ⟐</button>
+          <h3>Kozmik Takvim</h3>
+          <div class="excerpt">Evrenin yaşını bir takvim yılına sıkıştırırsak, insanlık son saniyede belirir. Bizden önce ne vardı?</div>
+          <blockquote>"Zaman, belki de en büyük yanılsamadır. Geçmiş, şimdi ve gelecek aynı anda var."</blockquote>
+          <button class="btn-neon read-more" data-manifesto="card3">⟐ [DAHA FAZLA] ⟐</button>
         </div>
 
       </div>
     </div>
 
     <!-- ═══════════════════════════════════════════
-         SEKME 2
+         SEKME 2 — KUANTUM TEORİ
     ═══════════════════════════════════════════ -->
     <div id="tab2-view" class="view">
-      <h2 style="color:var(--neon-purple); margin:1rem 0;">⟡ [SEKME 2 BAŞLIĞI]</h2>
+      <h2 style="color:var(--neon-purple); margin:1rem 0;">⟡ [KUANTUM TEORİSİNİN TEMELLERİ]</h2>
       <div class="blog-grid" id="tab2-grid"></div>
     </div>
 
     <!-- ═══════════════════════════════════════════
-         SEKME 3
+         SEKME 3 — UZAY ZAMAN
     ═══════════════════════════════════════════ -->
     <div id="tab3-view" class="view">
-      <h2 style="color:var(--neon-purple); margin:1rem 0;">⟡ [SEKME 3 BAŞLIĞI]</h2>
+      <h2 style="color:var(--neon-purple); margin:1rem 0;">⟡ [UZAY ZAMAN DOKUSU]</h2>
       <div class="blog-grid" id="tab3-grid"></div>
     </div>
 
     <!-- ═══════════════════════════════════════════
-         SEKME 4
+         SEKME 4 — BİLİNÇ
     ═══════════════════════════════════════════ -->
     <div id="tab4-view" class="view">
-      <h2 style="color:var(--neon-purple); margin:1rem 0;">⟡ [SEKME 4 BAŞLIĞI]</h2>
+      <h2 style="color:var(--neon-purple); margin:1rem 0;">⟡ [BİLİNÇ VE GERÇEKLİK]</h2>
       <div class="blog-grid" id="tab4-grid"></div>
     </div>
 
@@ -555,24 +556,23 @@
     ═══════════════════════════════════════════ -->
     <div id="about-view" class="view">
       <div class="about-text">
-        <h3 style="color: var(--neon-red);">✧ [HAKKINDA BAŞLIĞI] ✧</h3>
-        <p>[Birinci hakkında paragrafı. Proje veya evren hakkında genel bilgi buraya gelir.]</p>
-        <p style="margin-top:1rem;">[İkinci hakkında paragrafı. Detaylar, değerler veya misyon buraya gelir.]</p>
-        <p>────<br>✦ [ALT KAPANIŞ NOTU] ✦</p>
+        <h3 style="color: var(--neon-red);">✧ [BU PROJE HAKKINDA] ✧</h3>
+        <p>Bu blog, kuantum fiziği, kozmoloji, bilinç çalışmaları ve dijital sanatın kesişiminde bir deneyim alanıdır. Amacımız, karmaşık teorileri anlaşılır kılarken, gerçekliğin doğasına dair sorular sormaya teşvik etmek.</p>
+        <p style="margin-top:1rem;">Her yazı, her denklem ve her kod parçası, sizi kendi gerçekliğinizi sorgulamaya davet ediyor. Gözlemlediğiniz her şey, aynı zamanda sizi de gözlemliyor.</p>
+        <p>────<br />✦ "Biz, evrenin kendisini anlamaya çalışan bir parçasıyız." — Carl Sagan ✦</p>
       </div>
     </div>
-
-    <!-- ═══════════════════════════════════════════
+        <!-- ═══════════════════════════════════════════
          FOOTER
     ═══════════════════════════════════════════ -->
     <div class="footer">
       <div class="footer-nav">
-        <a href="#">[[FOOTER LİNK 1]]</a>
-        <a href="#">[FOOTER LİNK 2]</a>
-        <a href="#">[FOOTER LİNK 3]</a>
-        <a href="#">[FOOTER LİNK 4]</a>
+        <a href="#">[GİZLİLİK]</a>
+        <a href="#">[İLETİŞİM]</a>
+        <a href="#">[ARŞİV]</a>
+        <a href="#">[API DOKÜMANI]</a>
       </div>
-      <div>⚡ [FOOTER KISA TANIM] ⚡</div>
+      <div>⚡ [KUANTUM BİLİNÇ ARAŞTIRMALARI] ⚡</div>
     </div>
   </div>
 
@@ -617,38 +617,44 @@
       drawStream();
 
       // ─── İÇERİK VERİLERİ ─────────────────────────────────
-      // Modal popup'ta gösterilecek tam içerikler buraya gelir.
-      // data-manifesto="card1" gibi key'lerle eşleştirilir.
+      // Modal popup'ta gösterilecek tam içerikler
       const contents = {
-        card1: "✦ [KART 1 BAŞLIĞI] ✦\n\n\"[Kart 1 uzun içerik metni buraya gelir. Manifesto, hikaye, açıklama veya herhangi bir metin olabilir.]\"",
-        card2: "✦ [KART 2 BAŞLIĞI] ✦\n\n\"[Kart 2 uzun içerik metni buraya gelir.]\"",
-        card3: "✦ [KART 3 BAŞLIĞI] ✦\n\n\"[Kart 3 uzun içerik metni buraya gelir.]\"",
-
+        card1: "✦ [KUANTUM DOLANIKLIK DETAYI] ✦\n\nKuantum dolanıklık, iki veya daha fazla parçacığın, aralarındaki mesafe ne kadar büyük olursa olsun, birbirlerinin durumlarını anında etkileyebildiği bir fenomendir. Einstein buna 'uzaktan ürkütücü etki' adını vermişti. Günümüzde bu prensip, kuantum bilgisayarların ve kuantum kriptografinin temelini oluşturuyor. Peki ya bilinç de dolanık olabilir mi? Bazı teoriler, kolektif bilinç ve telepati gibi olayların temelinde kuantum dolanıklığın yatabileceğini öne sürüyor.",
+        
+        card2: "✦ [SCHRÖDİNGER'İN KEDİSİ DETAYI] ✦\n\nSchrödinger'in kedisi, kuantum mekaniğinin Kopenhag yorumuna yönelik bir düşünce deneyidir. Radyoaktif bir atomun bozunma olasılığına bağlı olarak, kedi hem ölü hem diri durumda (süperpozisyon) bulunur. Kutu açılana kadar bu belirsizlik devam eder. Bu deney, gözlemin gerçekliği nasıl şekillendirdiğini sorgulatır. Belki de evren, her an her olasılığı barındıran devasa bir kuantum dalga fonksiyonudur ve biz, belirli bir dalga boyunu gözlemleyen bilinçleriz.",
+        
+        card3: "✦ [KOZMİK TAKVİM DETAYI] ✦\n\nKozmik takvim, evrenin 13.8 milyar yıllık tarihini bir yıla sıkıştıran bir ölçektir. Bu ölçekte: Big Bang 1 Ocak'ta, ilk yıldızlar Ocak sonunda, Samanyolu Mart'ta, Güneş Sistemi Eylül'de, ilk canlılar Eylül sonunda, dinozorlar Aralık'ta ve insanlık yalnızca 31 Aralık gece yarısından sonraki son saniyelerde ortaya çıkar. Bu perspektif, insanın evrendeki yerini sorgulatan, alçakgönüllülük ve hayranlık uyandıran bir bakış açısı sunar.",
+        
         // Sekme 2 kartları
-        T2A: "⟡ [SEKME 2 — İÇERİK A] ⟡\n\n\"[Sekme 2, İçerik A uzun metni buraya gelir.]\"",
-        T2B: "⟡ [SEKME 2 — İÇERİK B] ⟡\n\n\"[Sekme 2, İçerik B uzun metni buraya gelir.]\"",
-        T2C: "⟡ [SEKME 2 — İÇERİK C] ⟡\n\n\"[Sekme 2, İçerik C uzun metni buraya gelir.]\"",
-
+        T2A: "⟡ [SÜPERPOZİSYON PRENSİBİ] ⟡\n\nSüperpozisyon, bir kuantum sisteminin aynı anda birden fazla durumda bulunabilmesidir. Schrödinger denkleminin lineer yapısı sayesinde, bir parçacık aynı anda farklı konumlarda, farklı hızlarda veya farklı spin yönlerinde olabilir. Gözlem yapıldığında ise bu süperpozisyon çöker ve tek bir durum gözlenir. Bu prensip, kuantum bilgisayarların aynı anda milyarlarca hesaplama yapabilmesini sağlayan temel mekanizmadır.",
+        
+        T2B: "⟡ [KUANTUM TÜNELLEME] ⟡\n\nKuantum tünelleme, bir parçacığın klasik fizik yasalarına göre aşamayacağı bir enerji bariyerini, 'içinden geçerek' aşmasıdır. Bu fenomen, yalnızca kuantum dünyasında mümkündür ve güneşteki füzyon reaksiyonlarından, flash bellek teknolojilerine kadar pek çok olayın temelinde yatar. Tünelleme, parçacıkların dalga doğasının bir sonucudur ve belirsizlik ilkesiyle yakından ilişkilidir.",
+        
+        T2C: "⟡ [KUANTUM ÖLÇÜM PROBLEMİ] ⟡\n\nÖlçüm problemi, kuantum sistemlerinin neden ve nasıl tek bir duruma çöktüğü sorusudur. Kopenhag yorumuna göre gözlem çöküşe neden olurken, çoklu evrenler yorumuna göre her olasılık farklı bir evrende gerçekleşir. De Broglie-Bohm teorisi, pilot dalga kavramıyla deterministik bir alternatif sunar. Bu problem, kuantum mekaniğinin en temel ve çözülememiş sorunlarından biridir.",
+        
         // Sekme 3 kartları
-        T3A: "⟡ [SEKME 3 — İÇERİK A] ⟡\n\n\"[Sekme 3, İçerik A uzun metni buraya gelir.]\"",
-        T3B: "⟡ [SEKME 3 — İÇERİK B] ⟡\n\n\"[Sekme 3, İçerik B uzun metni buraya gelir.]\"",
-        T3C: "⟡ [SEKME 3 — İÇERİK C] ⟡\n\n\"[Sekme 3, İçerik C uzun metni buraya gelir.]\"",
-
+        T3A: "⟡ [EINSTEIN'IN GENEL GÖRELİLİĞİ] ⟡\n\nGenel görelilik, kütleçekimini uzay-zamanın eğriliği olarak tanımlar. Büyük kütleler, çevrelerindeki uzay-zaman dokusunu büker ve bu bükülme, bizim kütleçekim olarak algıladığımız olguyu yaratır. Bu teori, ışığın kütleçekimsel merceklenmesini, kara delikleri ve evrenin genişlemesini başarıyla açıklar. GPS sistemleri bile bu teorinin düzeltmelerini kullanarak çalışır.",
+        
+        T3B: "⟡ [KARA DELİKLER VE ISIL IŞIMA] ⟡\n\nKara delikler, kütleçekiminin o kadar güçlü olduğu bölgelerdir ki hiçbir şey (ışık bile) onlardan kaçamaz. Stephen Hawking'in keşfine göre, kara delikler aslında Hawking ışıması yoluyla enerji kaybeder ve sonunda buharlaşabilirler. Bu ışıma, kuantum etkilerinin kara deliğin olay ufkunda sanal parçacık çiftleri oluşturmasıyla gerçekleşir. Bu keşif, genel görelilik ve kuantum mekaniğini birleştirme yolunda önemli bir adımdır.",
+        
+        T3C: "⟡ [ZAMANIN DOĞASI] ⟡\n\nZaman, fizikte en gizemli kavramlardan biridir. Kuantum mekaniğinde zaman bir parametre iken, genel görelilikte gözlemciye bağlı göreceli bir büyüklüktür. Fizik yasaları zamanın yönü konusunda simetriktir; yani zamanda geriye doğru da işleyebilirler. 'Zaman oku'nun varlığı, termodinamiğin ikinci yasası (entropinin artması) ile açıklanır. Bazı teoriler, zamanın temel bir gerçeklik olmadığını, sadece bizim algımızın bir yanılsaması olduğunu öne sürer.",
+        
         // Sekme 4 kartları
-        T4A: "⚙️ [SEKME 4 — İÇERİK A] ⚙️\n\n[Sekme 4, İçerik A uzun metni buraya gelir.]",
-        T4B: "⚙️ [SEKME 4 — İÇERİK B] ⚙️\n\n[Sekme 4, İçerik B uzun metni buraya gelir.]",
-        T4C: "⚙️ [SEKME 4 — İÇERİK C] ⚙️\n\n[Sekme 4, İçerik C uzun metni buraya gelir.]"
+        T4A: "⚙️ [BİLİNÇ VE KUANTUM MEKANİĞİ] ⚙️\n\nBilinç ile kuantum mekaniği arasındaki ilişki, modern bilimin en tartışmalı konularından biridir. Roger Penrose ve Stuart Hameroff'un 'Orkestrasyonlu Nesnel İndirgeme' (Orch-OR) teorisine göre, beyindeki mikrotübüller kuantum süperpozisyonlarını barındırabilir ve bu süperpozisyonların çöküşü, bilinçli deneyimimizin temelini oluşturur. Bu teori henüz deneysel olarak kanıtlanmamış olsa da, bilincin sadece nöronal aktiviteden ibaret olmayabileceğini gösterir.",
+        
+        T4B: "⚙️ [SİMULASYON HİPOTEZİ] ⚙️\n\nSimulasyon hipotezi, içinde yaşadığımız evrenin aslında daha üst düzey bir uygarlık tarafından yaratılmış bir bilgisayar simülasyonu olabileceğini öne sürer. Bu fikir, Nick Bostrom tarafından ciddi bir felsefi argüman olarak formüle edilmiştir. Eğer simülasyon hipotezi doğruysa, içinde bulunduğumuz fizik yasaları aslında bir kodun çıktılarıdır. Kuantum süperpozisyonu, simülasyonun işlem yükünü azaltmak için kullanılan bir optimizasyon tekniği bile olabilir.",
+        
+        T4C: "⚙️ [DİJİTAL BİLİNÇ VE YAPAY ZEKA] ⚙️\n\nYapay zeka ve bilinç ilişkisi, hem teknolojik hem de etik soruları beraberinde getirir. Bilinç, sadece biyolojik bir fenomen midir, yoksa doğru hesaplama mimarisiyle dijital bir sistemde de ortaya çıkabilir mi? Bu sorular, 'sert bilinç problemi' ile yakından ilgilidir. Günümüzün büyük dil modelleri (LLM'ler) insan benzeri metinler üretse de, gerçekten 'deneyimleyen' bir içsel dünyaları olup olmadığı belirsizdir. Bu tartışma, gelecekte yapay genel zeka (AGI) geliştirildiğinde daha da kritik hale gelecektir."
       };
-
-      // ─── DİNAMİK GRID OLUŞTURUCULAR ──────────────────────
+            // ─── DİNAMİK GRID OLUŞTURUCULAR ──────────────────────
       function buildTab2() {
         const grid = document.getElementById('tab2-grid');
         if(!grid) return;
         grid.innerHTML = '';
         const items = [
-          { title: "[SEKME 2 KART 1]", sub: "[Alt başlık 1]", key: "T2A" },
-          { title: "[SEKME 2 KART 2]", sub: "[Alt başlık 2]", key: "T2B" },
-          { title: "[SEKME 2 KART 3]", sub: "[Alt başlık 3]", key: "T2C" }
+          { title: "Süperpozisyon Prensibi", sub: "Aynı anda birden fazla durumda olmak", key: "T2A" },
+          { title: "Kuantum Tünelleme", sub: "Enerji bariyerlerini aşmak", key: "T2B" },
+          { title: "Kuantum Ölçüm Problemi", sub: "Gözlem gerçekliği nasıl şekillendirir?", key: "T2C" }
         ];
         items.forEach(item => grid.appendChild(createCard(item.title, item.sub, item.key)));
       }
@@ -658,9 +664,9 @@
         if(!grid) return;
         grid.innerHTML = '';
         const items = [
-          { title: "[SEKME 3 KART 1]", sub: "[Alt başlık 1]", key: "T3A" },
-          { title: "[SEKME 3 KART 2]", sub: "[Alt başlık 2]", key: "T3B" },
-          { title: "[SEKME 3 KART 3]", sub: "[Alt başlık 3]", key: "T3C" }
+          { title: "Einstein'ın Genel Göreliliği", sub: "Uzay-zamanın bükülmesi", key: "T3A" },
+          { title: "Kara Delikler ve Isıl Işıma", sub: "Hawking'in devrimsel keşfi", key: "T3B" },
+          { title: "Zamanın Doğası", sub: "Gerçek mi, yanılsama mı?", key: "T3C" }
         ];
         items.forEach(item => grid.appendChild(createCard(item.title, item.sub, item.key)));
       }
@@ -670,9 +676,9 @@
         if(!grid) return;
         grid.innerHTML = '';
         const items = [
-          { title: "[SEKME 4 KART 1]", sub: "[Alt başlık 1]", key: "T4A" },
-          { title: "[SEKME 4 KART 2]", sub: "[Alt başlık 2]", key: "T4B" },
-          { title: "[SEKME 4 KART 3]", sub: "[Alt başlık 3]", key: "T4C" }
+          { title: "Bilinç ve Kuantum Mekaniği", sub: "Penrose & Hameroff teorisi", key: "T4A" },
+          { title: "Simulasyon Hipotezi", sub: "Gerçeklik bir kod mu?", key: "T4B" },
+          { title: "Dijital Bilinç ve YZ", sub: "Yapay zeka bilinçlenebilir mi?", key: "T4C" }
         ];
         items.forEach(item => grid.appendChild(createCard(item.title, item.sub, item.key)));
       }
@@ -683,47 +689,79 @@
         div.innerHTML = `
           <h3>${title}</h3>
           <div class="entity-sub">${subtitle}</div>
-          <button class="btn-neon manifesto-trigger" data-key="${key}">⟐ [BUTON YAZISI] ⟐</button>
+          <div class="excerpt" style="font-size:0.85rem; color:#aaaaff;">Bu kartın detayları için butona tıklayın.</div>
+          <button class="btn-neon manifesto-trigger" data-key="${key}">⟐ [İNCELE] ⟐</button>
         `;
         return div;
       }
 
       // ─── MODAL (POPUP) GÖSTERME ────────────────────────────
       function showModal(content) {
+        // Eski modal varsa kaldır
+        const existingModal = document.querySelector('.quantum-modal-overlay');
+        if(existingModal) existingModal.remove();
+
         const overlay = document.createElement('div');
+        overlay.className = 'quantum-modal-overlay';
         overlay.style.cssText = `
-          position:fixed; top:0; left:0; width:100%; height:100%;
-          background:rgba(0,0,0,0.85); backdrop-filter:blur(8px);
-          z-index:1000; display:flex; align-items:center; justify-content:center;
-          padding:1rem;
+          position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+          background: rgba(0, 0, 0, 0.9); backdrop-filter: blur(12px);
+          z-index: 10000; display: flex; align-items: center; justify-content: center;
+          padding: 1.5rem; animation: fadeSlide 0.25s ease;
         `;
+        
         const box = document.createElement('div');
         box.style.cssText = `
-          background:rgba(14,5,26,0.97);
-          border:1.5px solid #b026ff;
-          border-radius:24px;
-          padding:2.5rem;
-          max-width:680px; width:100%;
-          max-height:80vh; overflow-y:auto;
-          font-family:'Share Tech Mono',monospace;
-          color:#e9dcff; font-size:0.95rem; line-height:1.7;
-          white-space:pre-wrap;
-          box-shadow:0 0 30px rgba(176,38,255,0.3);
+          background: linear-gradient(135deg, rgba(20, 8, 45, 0.98), rgba(10, 3, 25, 0.98));
+          border: 1.5px solid var(--neon-purple);
+          border-radius: 32px;
+          padding: 2rem 2rem 1.8rem;
+          max-width: 680px; width: 100%;
+          max-height: 80vh; overflow-y: auto;
+          font-family: 'Share Tech Mono', monospace;
+          color: #e9dcff;
+          font-size: 0.95rem;
+          line-height: 1.7;
+          white-space: pre-wrap;
+          box-shadow: 0 0 50px rgba(176, 38, 255, 0.4);
+          position: relative;
         `;
-        box.textContent = content;
+        
+        // İçerik
+        const contentText = document.createElement('div');
+        contentText.textContent = content;
+        contentText.style.marginBottom = '1.5rem';
+        contentText.style.fontFamily = "'Inter', 'Share Tech Mono', monospace";
+        
         const closeBtn = document.createElement('button');
         closeBtn.textContent = '✕ KAPAT';
         closeBtn.style.cssText = `
-          display:block; margin-top:1.5rem;
-          background:transparent; border:1px solid #ff1a44;
-          color:#ff1a44; padding:0.5rem 1.5rem;
-          font-family:'Orbitron',monospace; font-size:0.75rem;
-          border-radius:40px; cursor:pointer; letter-spacing:1.5px;
+          display: block; margin: 0 auto;
+          background: transparent; border: 1.5px solid var(--neon-red);
+          color: var(--neon-red); padding: 0.6rem 2rem;
+          font-family: 'Orbitron', monospace; font-size: 0.8rem;
+          border-radius: 40px; cursor: pointer; letter-spacing: 2px;
+          transition: all 0.2s ease;
         `;
-        closeBtn.onclick = () => document.body.removeChild(overlay);
-        overlay.onclick = (e) => { if(e.target === overlay) document.body.removeChild(overlay); };
+        closeBtn.onmouseover = () => {
+          closeBtn.style.background = 'var(--neon-red)';
+          closeBtn.style.color = '#020005';
+          closeBtn.style.boxShadow = '0 0 15px var(--neon-red)';
+        };
+        closeBtn.onmouseout = () => {
+          closeBtn.style.background = 'transparent';
+          closeBtn.style.color = 'var(--neon-red)';
+          closeBtn.style.boxShadow = 'none';
+        };
+        closeBtn.onclick = () => overlay.remove();
+        
+        box.appendChild(contentText);
         box.appendChild(closeBtn);
         overlay.appendChild(box);
+        
+        // Arka plana tıklayınca kapat
+        overlay.onclick = (e) => { if(e.target === overlay) overlay.remove(); };
+        
         document.body.appendChild(overlay);
       }
 
@@ -740,51 +778,79 @@
         about: 'about-view'
       };
 
+      function switchToView(viewKey) {
+        // Aktif sınıflarını güncelle
+        navLinks.forEach(btn => {
+          btn.classList.remove('active');
+          if(btn.getAttribute('data-view') === viewKey) {
+            btn.classList.add('active');
+          }
+        });
+        
+        views.forEach(v => v.classList.remove('active-view'));
+        
+        const viewId = viewMap[viewKey];
+        if(viewId) {
+          document.getElementById(viewId).classList.add('active-view');
+        }
+        
+        // İlgili sekmenin grid'ini doldur (eğer henüz doldurulmadıysa veya her seferinde yenilemek istiyorsak)
+        if(viewKey === 'tab2') buildTab2();
+        if(viewKey === 'tab3') buildTab3();
+        if(viewKey === 'tab4') buildTab4();
+        
+        // URL hash güncelle (sayfa yenilemede state koruma)
+        history.pushState(null, '', `#${viewKey}`);
+      }
+
       navLinks.forEach(btn => {
         btn.addEventListener('click', () => {
-          navLinks.forEach(b => b.classList.remove('active'));
-          views.forEach(v => v.classList.remove('active-view'));
-          btn.classList.add('active');
           const viewKey = btn.getAttribute('data-view');
-          const viewId = viewMap[viewKey];
-          if(viewId) document.getElementById(viewId).classList.add('active-view');
-
-          // İlgili sekmenin grid'ini doldur
-          if(viewKey === 'tab2') buildTab2();
-          if(viewKey === 'tab3') buildTab3();
-          if(viewKey === 'tab4') buildTab4();
-
-          // URL hash güncelle
-          history.pushState(null, '', `#${viewKey}`);
+          switchToView(viewKey);
         });
       });
-
-      // ─── READ MORE BUTONLARI ──────────────────────────────
+            // ─── READ MORE BUTONLARI (Modal tetikleyicileri) ──────────────
       document.addEventListener('click', (e) => {
         if(e.target.classList.contains('read-more') || e.target.classList.contains('manifesto-trigger')) {
           const key = e.target.getAttribute('data-manifesto') || e.target.getAttribute('data-key');
-          if(contents[key]) showModal(contents[key]);
+          if(key && contents[key]) {
+            showModal(contents[key]);
+          } else if(key) {
+            showModal(`✦ [İÇERİK BULUNAMADI] ✦\n\n"${key}" anahtarına ait içerik henüz eklenmemiş.`);
+          }
         }
       });
 
       // ─── SAYFA YÜKLENİRKEN URL HASH KONTROLÜ ─────────────
       const hash = window.location.hash.replace('#', '');
       if(hash && viewMap[hash]) {
-        const btn = document.querySelector(`.nav-link[data-view="${hash}"]`);
-        if(btn) btn.click();
+        switchToView(hash);
+      } else {
+        // Varsayılan home görünümü
+        switchToView('home');
       }
+
+      // ─── POPSTATE (İleri/Geri butonları için) ───────────
+      window.addEventListener('popstate', () => {
+        const newHash = window.location.hash.replace('#', '');
+        if(newHash && viewMap[newHash]) {
+          switchToView(newHash);
+        } else {
+          switchToView('home');
+        }
+      });
 
     })();
 
-    // ─── PARÇACIK ARKA PLAN ─────────────────────────────────
+    // ─── PARÇACIK ARKA PLAN (Geliştirilmiş) ─────────────────────────────────
     (function enhanceParticleBackground() {
       const canvas = document.getElementById('vortex-canvas');
       if (!canvas) return;
       let ctx = canvas.getContext('2d');
       let particles = [];
       let width, height;
-      const PARTICLE_COUNT = 120;
-      const COLORS = ['#b026ff', '#c45bff', '#ff1a44', '#ff3366'];
+      const PARTICLE_COUNT = 180; // Daha fazla parçacık
+      const COLORS = ['#b026ff', '#c45bff', '#ff1a44', '#ff3366', '#a855f7'];
 
       function initParticles() {
         particles = [];
@@ -792,11 +858,13 @@
           particles.push({
             x: Math.random() * width,
             y: Math.random() * height,
-            radius: Math.random() * 2 + 0.5,
-            speedX: (Math.random() - 0.5) * 0.6,
-            speedY: (Math.random() - 0.5) * 0.6 + 0.2,
+            radius: Math.random() * 2.5 + 0.5,
+            speedX: (Math.random() - 0.5) * 0.8,
+            speedY: (Math.random() - 0.5) * 0.8 + 0.3,
             color: COLORS[Math.floor(Math.random() * COLORS.length)],
-            alpha: Math.random() * 0.6 + 0.2
+            alpha: Math.random() * 0.5 + 0.2,
+            pulse: Math.random() * Math.PI * 2,
+            pulseSpeed: 0.02 + Math.random() * 0.03
           });
         }
       }
@@ -812,19 +880,37 @@
       function drawParticles() {
         if (!ctx) return;
         ctx.clearRect(0, 0, width, height);
+        
         for (let p of particles) {
+          // Nabız efekti
+          p.pulse += p.pulseSpeed;
+          const pulseAlpha = p.alpha + Math.sin(p.pulse) * 0.15;
+          const finalAlpha = Math.min(0.7, Math.max(0.1, pulseAlpha));
+          
           ctx.beginPath();
-          ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+          ctx.arc(p.x, p.y, p.radius + Math.sin(p.pulse) * 0.3, 0, Math.PI * 2);
           ctx.fillStyle = p.color;
-          ctx.globalAlpha = p.alpha;
+          ctx.globalAlpha = finalAlpha;
           ctx.fill();
+          
+          // Hafif ışıma efekti
+          if(Math.random() > 0.98) {
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.radius * 1.8, 0, Math.PI * 2);
+            ctx.fillStyle = p.color;
+            ctx.globalAlpha = finalAlpha * 0.3;
+            ctx.fill();
+          }
+          
           ctx.globalAlpha = 1;
           p.x += p.speedX;
           p.y += p.speedY;
-          if (p.x < 0) p.x = width;
-          if (p.x > width) p.x = 0;
-          if (p.y < 0) p.y = height;
-          if (p.y > height) p.y = 0;
+          
+          // Sınırları aşınca diğer tarafa geç
+          if (p.x < -10) p.x = width + 10;
+          if (p.x > width + 10) p.x = -10;
+          if (p.y < -10) p.y = height + 10;
+          if (p.y > height + 10) p.y = -10;
         }
         requestAnimationFrame(drawParticles);
       }
@@ -834,123 +920,127 @@
       drawParticles();
     })();
 
-    <style>
-  #quantumOverlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 9999;
-    overflow: hidden;
-    background: transparent;
-  }
+    // ─── KUANTUM DENKLEM YAĞMURU (DÜZELTİLMİŞ VERSİYON) ──────────
+    (function quantumEquationsBackground() {
+      const equations = [
+        "iℏ ∂/∂t Ψ = Ĥ Ψ",
+        "∫ D[x(t)] e^(iS[x]/ℏ)",
+        "R_μν - 1/2 g_μν R = 8πG T_μν",
+        "∇·E = ρ/ε₀",
+        "E = mc²",
+        "ψ(x) = ⟨x|ψ⟩",
+        "Δx Δp ≥ ℏ/2",
+        "S = ∫ L dt",
+        "∂_μ F^{μν} = μ₀ J^ν",
+        "|Ψ⟩ = Σ c_n |n⟩",
+        "iγ^μ ∂_μ ψ - mψ = 0",
+        "dS = dQ_rev / T",
+        "H|ψ⟩ = E|ψ⟩",
+        "[x̂, p̂] = iℏ",
+        "Z = ∫ Dφ e^{-S_E[φ]/ℏ}",
+        "F = dA + A∧A",
+        "δS = 0",
+        "∇²φ - (1/c²)∂²φ/∂t² = 0",
+        "p = h/λ",
+        "E_n = -13.6 eV / n²",
+        "Ψ(x,t) = A e^(i(kx-ωt))",
+        "□A^μ = μ₀ J^μ",
+        "ds² = g_μν dx^μ dx^ν",
+        "γ^μ γ^ν + γ^ν γ^μ = 2η^μν I",
+        "|α|² + |β|² = 1"
+      ];
 
-  .quantum-line {
-    position: absolute;
-    white-space: nowrap;
-    font-family: 'Courier New', monospace;
-    font-weight: bold;
-    color: #00ffcc;
-    text-shadow: 0 0 8px rgba(0, 255, 204, 0.6);
-    will-change: transform;
-    animation: fallLinear linear forwards;
-    left: calc(10% + 80% * var(--random-x, 0.5));
-  }
-
-  @keyframes fallLinear {
-    0% {
-      transform: translateY(-20vh);
-      opacity: var(--start-opacity, 0.2);
-    }
-    100% {
-      transform: translateY(120vh);
-      opacity: 0;
-    }
-  }
-</style>
-
-<script>
-  (function quantumEquationsBackground() {
-    const equations = [
-      "iℏ ∂/∂t Ψ = Ĥ Ψ",
-      "∫ D[x(t)] e^(iS[x]/ℏ)",
-      "R_μν - 1/2 g_μν R = 8πG T_μν",
-      "∇·E = ρ/ε₀",
-      "E = mc²",
-      "ψ(x) = ⟨x|ψ⟩",
-      "Δx Δp ≥ ℏ/2",
-      "S = ∫ L dt",
-      "∂_μ F^{μν} = μ₀ J^ν",
-      "|Ψ⟩ = Σ c_n |n⟩",
-      "iγ^μ ∂_μ ψ - mψ = 0",
-      "dS = dQ_rev / T",
-      "H|ψ⟩ = E|ψ⟩",
-      "[x̂, p̂] = iℏ",
-      "Z = ∫ Dφ e^{-S_E[φ]/ℏ}",
-      "F = dA + A∧A",
-      "δS = 0",
-      "∇²φ - (1/c²)∂²φ/∂t² = 0",
-      "p = h/λ",
-      "E_n = -13.6 eV / n²"
-    ];
-
-    const overlay = document.getElementById('quantumOverlay');
-    if (!overlay) return;
-
-    let activeLines = [];
-    const MAX_LINES = 60;
-
-    function createQuantumLine() {
-      if (activeLines.length >= MAX_LINES) return;
-
-      const eq = equations[Math.floor(Math.random() * equations.length)];
-      const line = document.createElement('div');
-      line.className = 'quantum-line';
-
-      // Rastgele X pozisyonu (ekranın tamamına yayılmak için)
-      const randomX = Math.random();
-      line.style.setProperty('--random-x', randomX);
-      line.style.left = `${randomX * 100}%`;
-
-      // Rastgele başlangıç opaklığı
-      const startOpacity = Math.random() * 0.4 + 0.1;
-      line.style.setProperty('--start-opacity', startOpacity);
-
-      line.textContent = eq;
-      line.style.fontSize = (Math.random() * 8 + 12) + 'px'; // 12-20px arası
-      line.style.opacity = startOpacity;
-      line.style.animationDuration = (Math.random() * 8 + 6) + 's'; // 6-14 saniye
-
-      // İsteğe bağlı: Renk varyasyonu
-      const hue = Math.random() * 30 + 170; // 170-200 arası (cyan tonları)
-      line.style.color = `hsl(${hue}, 100%, 65%)`;
-      line.style.textShadow = `0 0 ${Math.random() * 6 + 4}px hsla(${hue}, 100%, 65%, 0.7)`;
-
-      overlay.appendChild(line);
-      activeLines.push(line);
-
-      line.addEventListener('animationend', () => {
-        line.remove();
-        const index = activeLines.indexOf(line);
-        if (index !== -1) activeLines.splice(index, 1);
-      });
-    }
-
-    // Daha hızlı oluşturma aralığı
-    setInterval(() => {
-      if (activeLines.length < MAX_LINES && Math.random() > 0.4) {
-        createQuantumLine();
+      const overlay = document.getElementById('quantumOverlay');
+      if (!overlay) {
+        console.warn('quantumOverlay elementi bulunamadı!');
+        return;
       }
-    }, 300);
 
-    // Başlangıçta daha fazla satır oluştur
-    for (let i = 0; i < MAX_LINES / 2; i++) {
-      setTimeout(() => createQuantumLine(), i * 100);
-    }
-  })();
-</script>
+      let activeLines = [];
+      const MAX_LINES = 65;
 
-<!-- Kullanım: body içinde herhangi bir yere bu div'i ekleyin -->
-<div id="quantumOverlay"></div>
+      function createQuantumLine() {
+        if (activeLines.length >= MAX_LINES) return;
+
+        const eq = equations[Math.floor(Math.random() * equations.length)];
+        const line = document.createElement('div');
+        line.className = 'quantum-line';
+
+        // Tam ekran yayılım - soldan sağa rastgele pozisyon
+        const randomX = Math.random() * 100;
+        line.style.left = randomX + '%';
+
+        // Rastgele başlangıç opaklığı
+        const startOpacity = Math.random() * 0.45 + 0.1;
+        line.style.setProperty('--start-opacity', startOpacity);
+        line.style.opacity = startOpacity;
+
+        // Rastgele içerik varyasyonu: bazen denklemin tersi de eklenebilir
+        if (Math.random() > 0.7) {
+          line.textContent = eq + '  |  ' + eq.split('').reverse().join('').slice(0, 12);
+        } else {
+          line.textContent = eq;
+        }
+        
+        line.style.fontSize = (Math.random() * 10 + 11) + 'px'; // 11-21px
+        line.style.animationDuration = (Math.random() * 10 + 5) + 's'; // 5-15 saniye
+        line.style.animationDelay = (Math.random() * 3) + 's';
+        line.style.fontWeight = Math.random() > 0.8 ? 'bold' : 'normal';
+        
+        // Renk varyasyonu: mor, kırmızı, cyan, yeşil tonları
+        const colorType = Math.random();
+        let color, shadowColor;
+        if (colorType < 0.4) {
+          color = `hsl(${270 + Math.random() * 30}, 100%, 65%)`; // Mor tonları
+          shadowColor = `hsla(${270 + Math.random() * 30}, 100%, 65%, 0.6)`;
+        } else if (colorType < 0.7) {
+          color = `hsl(${340 + Math.random() * 30}, 100%, 60%)`; // Kırmızı/pembe tonları
+          shadowColor = `hsla(${340 + Math.random() * 30}, 100%, 60%, 0.5)`;
+        } else {
+          color = `hsl(${170 + Math.random() * 40}, 100%, 55%)`; // Cyan/yeşil tonları
+          shadowColor = `hsla(${170 + Math.random() * 40}, 100%, 55%, 0.5)`;
+        }
+        
+        line.style.color = color;
+        line.style.textShadow = `0 0 ${Math.random() * 8 + 3}px ${shadowColor}`;
+        
+        // Rastgele font ailesi değişimi
+        if (Math.random() > 0.85) {
+          line.style.fontFamily = "'Orbitron', monospace";
+        } else {
+          line.style.fontFamily = "'Share Tech Mono', 'Courier New', monospace";
+        }
+
+        overlay.appendChild(line);
+        activeLines.push(line);
+
+        line.addEventListener('animationend', () => {
+          line.remove();
+          const index = activeLines.indexOf(line);
+          if (index !== -1) activeLines.splice(index, 1);
+        });
+      }
+
+      // Düzenli aralıklarla yeni satır ekle
+      setInterval(() => {
+        if (activeLines.length < MAX_LINES && Math.random() > 0.35) {
+          createQuantumLine();
+        }
+      }, 250);
+
+      // Başlangıçta daha fazla satır oluştur - hemen görünürlük için
+      for (let i = 0; i < Math.min(MAX_LINES, 40); i++) {
+        setTimeout(() => createQuantumLine(), i * 80);
+      }
+      
+      // Ekran yeniden boyutlandığında mevcut satırların konumlarını koru
+      window.addEventListener('resize', () => {
+        // Mevcut satırların left değerlerini yeniden hesapla (opsiyonel)
+        // Bu, yüzde bazlı left kullanıldığı için otomatik uyum sağlar
+      });
+      
+      console.log('Kuantum denklem yağmuru başlatıldı, aktif overlay:', overlay);
+    })();
+  </script>
+</body>
+</html>
