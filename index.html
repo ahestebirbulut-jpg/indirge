@@ -834,103 +834,123 @@
       drawParticles();
     })();
 
-    Anladım.
-Sorun şu: Uzun denklemler yazınca fillText ile tek seferde yazıldığı için solda yığılma oluyor ve tüm ekranı düzgün kaplamıyor.
-Aşağıdaki kodda bunu düzelttim:
+    <style>
+  #quantumOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9999;
+    overflow: hidden;
+    background: transparent;
+  }
 
-Tüm ekranı eşit şekilde kullanıyor
-Daha fazla sütun var (daha yoğun)
-Denklemler yukarıdan aşağı akıyor, Matrix tarzı
-Spawn tüm ekrana yayılıyor
+  .quantum-line {
+    position: absolute;
+    white-space: nowrap;
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+    color: #00ffcc;
+    text-shadow: 0 0 8px rgba(0, 255, 204, 0.6);
+    will-change: transform;
+    animation: fallLinear linear forwards;
+    left: calc(10% + 80% * var(--random-x, 0.5));
+  }
 
-Düzeltilmiş ve Daha İyi Versiyon:
-HTML<div id="quantumOverlay" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1;"></div>
+  @keyframes fallLinear {
+    0% {
+      transform: translateY(-20vh);
+      opacity: var(--start-opacity, 0.2);
+    }
+    100% {
+      transform: translateY(120vh);
+      opacity: 0;
+    }
+  }
+</style>
 
 <script>
-// ─── KUANTUM DENKLEM YAĞMURU - Tam Ekran Versiyon ────────────────────────────
-const canvas = document.createElement('canvas');
-const ctx = canvas.getContext('2d');
+  (function quantumEquationsBackground() {
+    const equations = [
+      "iℏ ∂/∂t Ψ = Ĥ Ψ",
+      "∫ D[x(t)] e^(iS[x]/ℏ)",
+      "R_μν - 1/2 g_μν R = 8πG T_μν",
+      "∇·E = ρ/ε₀",
+      "E = mc²",
+      "ψ(x) = ⟨x|ψ⟩",
+      "Δx Δp ≥ ℏ/2",
+      "S = ∫ L dt",
+      "∂_μ F^{μν} = μ₀ J^ν",
+      "|Ψ⟩ = Σ c_n |n⟩",
+      "iγ^μ ∂_μ ψ - mψ = 0",
+      "dS = dQ_rev / T",
+      "H|ψ⟩ = E|ψ⟩",
+      "[x̂, p̂] = iℏ",
+      "Z = ∫ Dφ e^{-S_E[φ]/ℏ}",
+      "F = dA + A∧A",
+      "δS = 0",
+      "∇²φ - (1/c²)∂²φ/∂t² = 0",
+      "p = h/λ",
+      "E_n = -13.6 eV / n²"
+    ];
 
-document.getElementById('quantumOverlay').appendChild(canvas);
+    const overlay = document.getElementById('quantumOverlay');
+    if (!overlay) return;
 
-function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-}
+    let activeLines = [];
+    const MAX_LINES = 60;
 
-window.addEventListener('resize', resizeCanvas);
-resizeCanvas();
+    function createQuantumLine() {
+      if (activeLines.length >= MAX_LINES) return;
 
-// Orijinal denklemler (değiştirilmedi)
-const equations = [
-    "iℏ ∂/∂t Ψ = Ĥ Ψ",
-    "∫ D[x(t)] e^(iS[x]/ℏ)",
-    "R_μν - 1/2 g_μν R = 8πG T_μν",
-    "∇·E = ρ/ε₀",
-    "E = mc²",
-    "ψ(x) = ⟨x|ψ⟩",
-    "Δx Δp ≥ ℏ/2",
-    "S = ∫ L dt",
-    "∂_μ F^{μν} = μ₀ J^ν",
-    "|Ψ⟩ = Σ c_n |n⟩",
-    "iγ^μ ∂_μ ψ - mψ = 0",
-    "dS = dQ_rev / T",
-    "H|ψ⟩ = E|ψ⟩",
-    "[x̂, p̂] = iℏ",
-    "Z = ∫ Dφ e^{-S_E[φ]/ℏ}",
-    "F = dA + A∧A",
-    "δS = 0",
-    "∇²φ - (1/c²)∂²φ/∂t² = 0",
-    "p = h/λ",
-    "E_n = -13.6 eV / n²"
-];
+      const eq = equations[Math.floor(Math.random() * equations.length)];
+      const line = document.createElement('div');
+      line.className = 'quantum-line';
 
-const fontSize = 14;
-let columns = Math.floor(canvas.width / (fontSize * 0.85)); // Daha sık sütun
-let drops = new Array(columns).fill(1);
-let currentEquations = new Array(columns); // Her sütuna ayrı denklem atıyoruz
+      // Rastgele X pozisyonu (ekranın tamamına yayılmak için)
+      const randomX = Math.random();
+      line.style.setProperty('--random-x', randomX);
+      line.style.left = `${randomX * 100}%`;
 
-// Her sütuna rastgele denklem ata
-function resetColumn(i) {
-    currentEquations[i] = equations[Math.floor(Math.random() * equations.length)];
-    drops[i] = Math.random() * -50; // Rastgele başlangıç yüksekliği
-}
+      // Rastgele başlangıç opaklığı
+      const startOpacity = Math.random() * 0.4 + 0.1;
+      line.style.setProperty('--start-opacity', startOpacity);
 
-for (let i = 0; i < columns; i++) {
-    resetColumn(i);
-}
+      line.textContent = eq;
+      line.style.fontSize = (Math.random() * 8 + 12) + 'px'; // 12-20px arası
+      line.style.opacity = startOpacity;
+      line.style.animationDuration = (Math.random() * 8 + 6) + 's'; // 6-14 saniye
 
-let frame = 0;
+      // İsteğe bağlı: Renk varyasyonu
+      const hue = Math.random() * 30 + 170; // 170-200 arası (cyan tonları)
+      line.style.color = `hsl(${hue}, 100%, 65%)`;
+      line.style.textShadow = `0 0 ${Math.random() * 6 + 4}px hsla(${hue}, 100%, 65%, 0.7)`;
 
-function draw() {
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.07)';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+      overlay.appendChild(line);
+      activeLines.push(line);
 
-    ctx.fillStyle = '#00ffbb';
-    ctx.font = `${fontSize}px 'Fira Code', 'Courier New', monospace`;
-
-    for (let i = 0; i < drops.length; i++) {
-        const eq = currentEquations[i];
-        const x = i * fontSize * 0.85;
-        const y = drops[i] * fontSize;
-
-        ctx.fillText(eq, x, y);
-
-        // Daha doğal ve yoğun akış
-        if (y > canvas.height + 100 && Math.random() > 0.96) {
-            resetColumn(i);
-        }
-
-        drops[i] += 0.9; // Hız ayarı
+      line.addEventListener('animationend', () => {
+        line.remove();
+        const index = activeLines.indexOf(line);
+        if (index !== -1) activeLines.splice(index, 1);
+      });
     }
 
-    frame++;
-}
+    // Daha hızlı oluşturma aralığı
+    setInterval(() => {
+      if (activeLines.length < MAX_LINES && Math.random() > 0.4) {
+        createQuantumLine();
+      }
+    }, 300);
 
-setInterval(draw, 32);
-
-// Başlangıçta ekranı doldur
-for (let i = 0; i < 90; i++) {
-    draw();
-}
+    // Başlangıçta daha fazla satır oluştur
+    for (let i = 0; i < MAX_LINES / 2; i++) {
+      setTimeout(() => createQuantumLine(), i * 100);
+    }
+  })();
 </script>
+
+<!-- Kullanım: body içinde herhangi bir yere bu div'i ekleyin -->
+<div id="quantumOverlay"></div>
