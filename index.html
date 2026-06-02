@@ -834,67 +834,85 @@
       drawParticles();
     })();
 
-    // ─── KUANTUM DENKLEM YAĞMURU ────────────────────────────
-    (function quantumEquationsBackground() {
-      // İstersen bu dizi kendi evrene ait semboller/denklemlerle değiştirilebilir
-      const equations = [
-        "iℏ ∂/∂t Ψ = Ĥ Ψ",
-        "∫ D[x(t)] e^(iS[x]/ℏ)",
-        "R_μν - 1/2 g_μν R = 8πG T_μν",
-        "∇·E = ρ/ε₀",
-        "E = mc²",
-        "ψ(x) = ⟨x|ψ⟩",
-        "Δx Δp ≥ ℏ/2",
-        "S = ∫ L dt",
-        "∂_μ F^{μν} = μ₀ J^ν",
-        "|Ψ⟩ = Σ c_n |n⟩",
-        "iγ^μ ∂_μ ψ - mψ = 0",
-        "dS = dQ_rev / T",
-        "H|ψ⟩ = E|ψ⟩",
-        "[x̂, p̂] = iℏ",
-        "Z = ∫ Dφ e^{-S_E[φ]/ℏ}",
-        "F = dA + A∧A",
-        "δS = 0",
-        "∇²φ - (1/c²)∂²φ/∂t² = 0",
-        "p = h/λ",
-        "E_n = -13.6 eV / n²"
-      ];
+    // ─── KUANTUM DENKLEM YAĞMURU - Yoğun Versiyon ────────────────────────────
+const canvas = document.createElement('canvas');
+const ctx = canvas.getContext('2d');
 
-      const overlay = document.getElementById('quantumOverlay');
-      if (!overlay) return;
+document.getElementById('quantumOverlay').appendChild(canvas);
 
-      let activeLines = [];
-      const MAX_LINES = 45;
+function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
 
-      function createQuantumLine() {
-        if (activeLines.length >= MAX_LINES) return;
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
+
+// Orijinal denklemlerin (hiç değiştirmedim)
+const equations = [
+    "iℏ ∂/∂t Ψ = Ĥ Ψ",
+    "∫ D[x(t)] e^(iS[x]/ℏ)",
+    "R_μν - 1/2 g_μν R = 8πG T_μν",
+    "∇·E = ρ/ε₀",
+    "E = mc²",
+    "ψ(x) = ⟨x|ψ⟩",
+    "Δx Δp ≥ ℏ/2",
+    "S = ∫ L dt",
+    "∂_μ F^{μν} = μ₀ J^ν",
+    "|Ψ⟩ = Σ c_n |n⟩",
+    "iγ^μ ∂_μ ψ - mψ = 0",
+    "dS = dQ_rev / T",
+    "H|ψ⟩ = E|ψ⟩",
+    "[x̂, p̂] = iℏ",
+    "Z = ∫ Dφ e^{-S_E[φ]/ℏ}",
+    "F = dA + A∧A",
+    "δS = 0",
+    "∇²φ - (1/c²)∂²φ/∂t² = 0",
+    "p = h/λ",
+    "E_n = -13.6 eV / n²"
+];
+
+const fontSize = 15;
+let columns = Math.floor(canvas.width / fontSize);
+let drops = new Array(columns).fill(1);
+let frame = 0;
+
+function draw() {
+    // Daha koyu ve derin Matrix efekti
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.08)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    ctx.fillStyle = '#00ffaa';
+    ctx.font = `${fontSize}px 'Fira Code', 'Courier New', monospace`;
+
+    for (let i = 0; i < drops.length; i++) {
+        // Rastgele denklem seç
         const eq = equations[Math.floor(Math.random() * equations.length)];
-        const line = document.createElement('div');
-        line.className = 'quantum-line';
-        line.textContent = eq + '   ' + eq.split('').reverse().join('').slice(0, 8);
-        line.style.fontSize = (Math.random() * 6 + 11) + 'px';
-        line.style.opacity = (Math.random() * 0.4 + 0.15).toString();
-        line.style.top = Math.random() * window.innerHeight + 'px';
-        const duration = Math.random() * 16 + 12;
-        line.style.animationDuration = duration + 's';
-        line.style.animationDelay = (Math.random() * 5) + 's';
-        overlay.appendChild(line);
-        activeLines.push(line);
-        line.addEventListener('animationend', () => {
-          line.remove();
-          const index = activeLines.indexOf(line);
-          if (index !== -1) activeLines.splice(index, 1);
-        });
-      }
+        
+        // Uzun denklemleri tam yazdır
+        ctx.fillText(eq, i * fontSize, drops[i] * fontSize);
 
-      setInterval(() => {
-        if (activeLines.length < MAX_LINES && Math.random() > 0.65) createQuantumLine();
-      }, 800);
+        // Daha yoğun yağmur için reset olasılığı düşürüldü
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.985) {
+            drops[i] = 0;
+        }
+        drops[i]++;
+    }
 
-      for (let i = 0; i < 20; i++) {
-        setTimeout(() => createQuantumLine(), i * 150);
-      }
-    })();
-  </script>
-</body>
-</html>
+    // Ara sıra parlak geçiş efekti
+    if (frame % 45 === 0) {
+        ctx.fillStyle = 'rgba(0, 255, 170, 0.12)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+    }
+
+    frame++;
+}
+
+// Daha yoğun animasyon
+setInterval(draw, 28);
+
+// Başlangıçta çok daha yoğun başlat
+for (let i = 0; i < 70; i++) {
+    draw();
+}
+</script>
