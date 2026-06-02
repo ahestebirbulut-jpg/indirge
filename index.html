@@ -921,126 +921,198 @@
     })();
 
     // ─── KUANTUM DENKLEM YAĞMURU (DÜZELTİLMİŞ VERSİYON) ──────────
-    (function quantumEquationsBackground() {
-      const equations = [
-        "iℏ ∂/∂t Ψ = Ĥ Ψ",
-        "∫ D[x(t)] e^(iS[x]/ℏ)",
-        "R_μν - 1/2 g_μν R = 8πG T_μν",
-        "∇·E = ρ/ε₀",
-        "E = mc²",
-        "ψ(x) = ⟨x|ψ⟩",
-        "Δx Δp ≥ ℏ/2",
-        "S = ∫ L dt",
-        "∂_μ F^{μν} = μ₀ J^ν",
-        "|Ψ⟩ = Σ c_n |n⟩",
-        "iγ^μ ∂_μ ψ - mψ = 0",
-        "dS = dQ_rev / T",
-        "H|ψ⟩ = E|ψ⟩",
-        "[x̂, p̂] = iℏ",
-        "Z = ∫ Dφ e^{-S_E[φ]/ℏ}",
-        "F = dA + A∧A",
-        "δS = 0",
-        "∇²φ - (1/c²)∂²φ/∂t² = 0",
-        "p = h/λ",
-        "E_n = -13.6 eV / n²",
-        "Ψ(x,t) = A e^(i(kx-ωt))",
-        "□A^μ = μ₀ J^μ",
-        "ds² = g_μν dx^μ dx^ν",
-        "γ^μ γ^ν + γ^ν γ^μ = 2η^μν I",
-        "|α|² + |β|² = 1"
-      ];
+(function quantumEquationsBackground() {
+  const equations = [
+    "iℏ ∂/∂t Ψ = Ĥ Ψ",
+    "∫ D[x(t)] e^(iS[x]/ℏ)",
+    "R_μν - 1/2 g_μν R = 8πG T_μν",
+    "∇·E = ρ/ε₀",
+    "E = mc²",
+    "ψ(x) = ⟨x|ψ⟩",
+    "Δx Δp ≥ ℏ/2",
+    "S = ∫ L dt",
+    "∂_μ F^{μν} = μ₀ J^ν",
+    "|Ψ⟩ = Σ c_n |n⟩",
+    "iγ^μ ∂_μ ψ - mψ = 0",
+    "dS = dQ_rev / T",
+    "H|ψ⟩ = E|ψ⟩",
+    "[x̂, p̂] = iℏ",
+    "Z = ∫ Dφ e^{-S_E[φ]/ℏ",
+    "F = dA + A∧A",
+    "δS = 0",
+    "∇²φ - (1/c²)∂²φ/∂t² = 0",
+    "p = h/λ",
+    "E_n = -13.6 eV / n²",
+    "Ψ(x,t) = A e^(i(kx-ωt))",
+    "□A^μ = μ₀ J^μ",
+    "ds² = g_μν dx^μ dx^ν",
+    "γ^μ γ^ν + γ^ν γ^μ = 2η^μν I",
+    "|α|² + |β|² = 1"
+  ];
 
-      const overlay = document.getElementById('quantumOverlay');
-      if (!overlay) {
-        console.warn('quantumOverlay elementi bulunamadı!');
-        return;
+  const overlay = document.getElementById('quantumOverlay');
+  if (!overlay) {
+    console.warn('quantumOverlay elementi bulunamadı!');
+    return;
+  }
+
+  let activeLines = [];
+  const MAX_LINES = 80;
+
+  // Her karakteri dikey olarak alt alta yazmak için yardımcı fonksiyon
+  function toVerticalText(text) {
+    let result = '';
+    for (let i = 0; i < text.length; i++) {
+      const char = text[i];
+      if (char === ' ') {
+        result += '　\n'; // Tam genişlikli boşluk (Japonca stili)
+      } else if (char === '=') {
+        result += '=\n';
+      } else if (char === '→') {
+        result += '→\n';
+      } else {
+        result += char + '\n';
       }
+    }
+    return result;
+  }
 
-      let activeLines = [];
-      const MAX_LINES = 65;
+  function createQuantumLine() {
+    if (activeLines.length >= MAX_LINES) return;
 
-      function createQuantumLine() {
-        if (activeLines.length >= MAX_LINES) return;
+    const eq = equations[Math.floor(Math.random() * equations.length)];
+    const line = document.createElement('div');
+    line.className = 'quantum-line';
+    
+    // CRITICAL: Animasyon başlamadan önce görünürlüğü sıfırla
+    line.style.visibility = 'visible';
+    
+    // Tam ekran yayılım - soldan sağa rastgele pozisyon
+    const randomX = 5 + Math.random() * 90; // %5 ile %95 arası, kenarlara çok yakın değil
+    line.style.left = randomX + '%';
+    
+    // Dikey yazı stili (tategaki)
+    line.style.writingMode = 'vertical-rl'; // Dikey yazı, sağdan sola
+    line.style.textOrientation = 'mixed';
+    line.style.whiteSpace = 'normal'; // Dikey modda karakterler alt alta
+    line.style.display = 'inline-block';
+    line.style.lineHeight = '1.1';
+    line.style.letterSpacing = '2px';
+    
+    // İçeriği dikey formata çevir
+    const verticalEq = toVerticalText(eq);
+    line.textContent = verticalEq;
+    
+    // Rastgele başlangıç opaklığı - daha belirgin
+    const startOpacity = Math.random() * 0.6 + 0.3;
+    line.style.setProperty('--start-opacity', startOpacity);
+    line.style.opacity = startOpacity;
+    
+    // Font boyutu - dikey yazı için biraz daha küçük
+    const fontSize = Math.random() * 12 + 14; // 14-26px
+    line.style.fontSize = fontSize + 'px';
+    
+    // Animasyon süresi - daha yumuşak
+    const duration = Math.random() * 10 + 8; // 8-18 saniye
+    line.style.animationDuration = duration + 's';
+    
+    // Animasyon gecikmesi yok - HEMEN BAŞLASIN
+    line.style.animationDelay = '0s';
+    line.style.fontWeight = Math.random() > 0.7 ? 'bold' : 'normal';
+    
+    // SADECE MOR RENK - tema ile uyumlu
+    const purpleHue = 260 + Math.random() * 40; // 260-300 arası mor tonları
+    const saturation = 85 + Math.random() * 15; // %85-100
+    const lightness = 55 + Math.random() * 25; // %55-80
+    
+    const color = `hsl(${purpleHue}, ${saturation}%, ${lightness}%)`;
+    const shadowColor = `hsla(${purpleHue}, ${saturation}%, 65%, 0.7)`;
+    
+    line.style.color = color;
+    line.style.textShadow = `0 0 ${Math.random() * 10 + 4}px ${shadowColor}`;
+    
+    // Font ailesi - monospace daha iyi görünür
+    line.style.fontFamily = "'Share Tech Mono', 'Courier New', monospace";
+    
+    // Hızlı başlangıç için small optimization
+    line.style.willChange = 'transform, opacity';
+    
+    overlay.appendChild(line);
+    activeLines.push(line);
 
-        const eq = equations[Math.floor(Math.random() * equations.length)];
-        const line = document.createElement('div');
-        line.className = 'quantum-line';
+    line.addEventListener('animationend', () => {
+      line.remove();
+      const index = activeLines.indexOf(line);
+      if (index !== -1) activeLines.splice(index, 1);
+    });
+  }
 
-        // Tam ekran yayılım - soldan sağa rastgele pozisyon
-        const randomX = Math.random() * 100;
-        line.style.left = randomX + '%';
-
-        // Rastgele başlangıç opaklığı
-        const startOpacity = Math.random() * 0.45 + 0.1;
-        line.style.setProperty('--start-opacity', startOpacity);
-        line.style.opacity = startOpacity;
-
-        // Rastgele içerik varyasyonu: bazen denklemin tersi de eklenebilir
-        if (Math.random() > 0.7) {
-          line.textContent = eq + '  |  ' + eq.split('').reverse().join('').slice(0, 12);
-        } else {
-          line.textContent = eq;
-        }
-        
-        line.style.fontSize = (Math.random() * 10 + 11) + 'px'; // 11-21px
-        line.style.animationDuration = (Math.random() * 10 + 5) + 's'; // 5-15 saniye
-        line.style.animationDelay = (Math.random() * 3) + 's';
-        line.style.fontWeight = Math.random() > 0.8 ? 'bold' : 'normal';
-        
-        // Renk varyasyonu: mor, kırmızı, cyan, yeşil tonları
-        const colorType = Math.random();
-        let color, shadowColor;
-        if (colorType < 0.4) {
-          color = `hsl(${270 + Math.random() * 30}, 100%, 65%)`; // Mor tonları
-          shadowColor = `hsla(${270 + Math.random() * 30}, 100%, 65%, 0.6)`;
-        } else if (colorType < 0.7) {
-          color = `hsl(${340 + Math.random() * 30}, 100%, 60%)`; // Kırmızı/pembe tonları
-          shadowColor = `hsla(${340 + Math.random() * 30}, 100%, 60%, 0.5)`;
-        } else {
-          color = `hsl(${170 + Math.random() * 40}, 100%, 55%)`; // Cyan/yeşil tonları
-          shadowColor = `hsla(${170 + Math.random() * 40}, 100%, 55%, 0.5)`;
-        }
-        
-        line.style.color = color;
-        line.style.textShadow = `0 0 ${Math.random() * 8 + 3}px ${shadowColor}`;
-        
-        // Rastgele font ailesi değişimi
-        if (Math.random() > 0.85) {
-          line.style.fontFamily = "'Orbitron', monospace";
-        } else {
-          line.style.fontFamily = "'Share Tech Mono', 'Courier New', monospace";
-        }
-
-        overlay.appendChild(line);
-        activeLines.push(line);
-
-        line.addEventListener('animationend', () => {
-          line.remove();
-          const index = activeLines.indexOf(line);
-          if (index !== -1) activeLines.splice(index, 1);
-        });
+  // CSS'e dikey animasyon için özel keyframes ekle (mevcut olanı override et)
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes fallLinear {
+      0% {
+        transform: translateY(-15vh) translateX(0);
+        opacity: var(--start-opacity, 0.4);
       }
-
-      // Düzenli aralıklarla yeni satır ekle
-      setInterval(() => {
-        if (activeLines.length < MAX_LINES && Math.random() > 0.35) {
-          createQuantumLine();
-        }
-      }, 250);
-
-      // Başlangıçta daha fazla satır oluştur - hemen görünürlük için
-      for (let i = 0; i < Math.min(MAX_LINES, 40); i++) {
-        setTimeout(() => createQuantumLine(), i * 80);
+      100% {
+        transform: translateY(110vh) translateX(calc(10px * sin(0.1rad)));
+        opacity: 0;
       }
+    }
+    .quantum-line {
+      position: absolute;
+      white-space: pre-wrap;
+      font-family: 'Share Tech Mono', monospace;
+      font-weight: bold;
+      will-change: transform, opacity;
+      animation: fallLinear linear forwards;
+      pointer-events: none;
+      z-index: 9999;
+      text-align: center;
+      background: transparent;
+      backdrop-filter: blur(1px);
+    }
+  `;
+  document.head.appendChild(style);
+  
+  // Düzenli aralıklarla yeni satır ekle - daha sık
+  let intervalCount = 0;
+  const spawnInterval = setInterval(() => {
+    if (activeLines.length < MAX_LINES) {
+      // Her zaman yeni satır ekle, rastgele değil
+      createQuantumLine();
       
-      // Ekran yeniden boyutlandığında mevcut satırların konumlarını koru
-      window.addEventListener('resize', () => {
-        // Mevcut satırların left değerlerini yeniden hesapla (opsiyonel)
-        // Bu, yüzde bazlı left kullanıldığı için otomatik uyum sağlar
-      });
-      
-      console.log('Kuantum denklem yağmuru başlatıldı, aktif overlay:', overlay);
-    })();
+      // Bazen iki tane birden ekle (daha yoğun görünüm)
+      if (activeLines.length < MAX_LINES - 5 && Math.random() > 0.6) {
+        setTimeout(() => createQuantumLine(), 50);
+      }
+    }
+  }, 180);
+  
+  // Başlangıçta hemen çok sayıda satır oluştur - gecikmesiz
+  for (let i = 0; i < Math.min(MAX_LINES, 45); i++) {
+    createQuantumLine();
+  }
+  
+  // Periyodik olarak temizlik yap (hafıza için)
+  setInterval(() => {
+    const allLines = document.querySelectorAll('#quantumOverlay .quantum-line');
+    if (allLines.length > MAX_LINES + 10) {
+      const excess = allLines.length - MAX_LINES;
+      for (let i = 0; i < excess; i++) {
+        if (allLines[i]) allLines[i].remove();
+      }
+    }
+  }, 10000);
+  
+  // Cleanup interval on page unload
+  window.addEventListener('beforeunload', () => {
+    clearInterval(spawnInterval);
+  });
+  
+  console.log('Kuantum denklem yağmuru başlatıldı (dikey yazı modu, mor tonları, ani başlangıç)');
+})();
   </script>
 </body>
 </html>
